@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <!-- Open Book at the top -->
+  <g fill="#1b2a47">
+    <!-- Left page -->
+    <path d="M 485,170 C 445,115 390,115 390,115 L 390,25 C 390,25 445,25 485,80 Z" />
+    <!-- Right page -->
+    <path d="M 515,170 C 555,115 610,115 610,115 L 610,25 C 610,25 555,25 515,80 Z" />
+  </g>
+
+  <!-- Left arm of the V (Dark Navy Blue) -->
+  <path d="M 40,65 
+           L 320,65 
+           C 300,140 280,180 280,195
+           C 280,195 340,165 410,205
+           C 445,225 460,255 460,290
+           C 460,350 410,470 330,630
+           L 490,660
+           L 410,660 
+           L 290,420 
+           L 230,550
+           L 180,660
+           L 40,65" fill="#1b2a47" />
+
+  <!-- Right arm of the V (Orange-Yellow) -->
+  <path d="M 960,65 
+           L 680,65 
+           C 700,140 720,180 720,195
+           C 720,195 660,165 590,205
+           C 555,225 540,255 540,290
+           C 540,350 590,470 670,630
+           L 510,660
+           L 590,660 
+           L 710,420 
+           L 770,550
+           L 820,660
+           L 960,65" fill="#e5a952" />
+
+  <!-- White Bulb Center Circle -->
+  <circle cx="500" cy="320" r="180" fill="#ffffff" />
+
+  <!-- "STUDY" text inside circle -->
+  <text x="500" y="355" font-family="'Outfit', 'Inter', sans-serif" font-weight="900" font-size="105" fill="#94a3b8" text-anchor="middle" letter-spacing="1">STUDY</text>
+
+  <!-- Filament / screw thread base at the bottom -->
+  <g fill="none" stroke="#1b2a47" stroke-width="32" stroke-linecap="round">
+    <path d="M 400,720 Q 500,755 600,720" />
+    <path d="M 400,780 Q 500,815 600,780" />
+    <path d="M 405,840 Q 500,875 595,840" />
+    <path d="M 440,900 Q 500,930 560,900" stroke-width="26" />
+  </g>
+</svg>

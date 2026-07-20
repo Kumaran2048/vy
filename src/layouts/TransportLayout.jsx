@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Calendar, MessageSquare, ChevronLeft, LogOut } from 'lucide-react';
 import { useTransport } from '../context/TransportContext';
 import { motion } from 'framer-motion';
+import logoImg from '../assets/vstudy-logo.svg';
 
 const TransportLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -35,13 +36,8 @@ const TransportLayout = ({ children }) => {
       <header className="bg-[#120d26] border-b border-purple-950/40 px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-lg">
         {/* Left: VStudy Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center p-1.5 shadow-inner">
-            <svg viewBox="0 0 100 120" className="w-full h-full text-indigo-900" fill="currentColor">
-              <path d="M50 0 L100 30 L100 90 L50 120 L0 90 L0 30 Z" className="fill-orange-500" />
-              <path d="M50 10 L90 35 L90 85 L50 110 L10 85 L10 35 Z" className="fill-white" />
-              <path d="M30 45 L50 30 L70 45 L50 85 Z" className="fill-indigo-950" />
-              <circle cx="50" cy="95" r="8" className="fill-yellow-500" />
-            </svg>
+          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center p-1 shadow-inner select-none">
+            <img src={logoImg} alt="VStudy" className="w-full h-full object-contain" />
           </div>
           <span className="text-xl font-bold tracking-wide bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
             VStudy

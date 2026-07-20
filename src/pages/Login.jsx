@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTransport } from '../context/TransportContext';
 import { motion } from 'framer-motion';
+import logoImg from '../assets/vstudy-logo.svg';
 
 const Login = () => {
   const { login } = useTransport();
@@ -131,16 +132,10 @@ const Login = () => {
           POWERED BY
         </span>
         {/* VianSoft Brand Logo representation */}
-        <div className="flex items-center gap-1">
-          <div className="w-7 h-7 bg-indigo-950 flex items-center justify-center rounded p-1">
-            <svg viewBox="0 0 100 120" className="w-full h-full text-white" fill="currentColor">
-              <path d="M50 0 L100 30 L100 90 L50 120 L0 90 L0 30 Z" className="fill-indigo-700" />
-              <path d="M50 20 L80 40 L80 80 L50 100 L20 80 L20 40 Z" className="fill-white" />
-              <path d="M35 50 L50 35 L65 50 L50 85 Z" className="fill-indigo-950" />
-            </svg>
-          </div>
+        <div className="flex items-center gap-1.5 select-none">
+          <img src={logoImg} alt="VStudy Logo" className="w-8 h-8 object-contain" />
           <span className="font-extrabold text-sm tracking-tight text-indigo-950">
-            VianSoft
+            Viana Soft
           </span>
         </div>
         <p className="text-[9px] text-slate-400 font-medium leading-relaxed">
