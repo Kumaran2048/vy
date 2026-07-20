@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 12, 27, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(147, 51, 234, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(147, 51, 234, 0.7);
+}
+
+/* Base resets & styles */
+html, body, #root {
+  background-color: #0f0c20;
+  color: #e2e8f0;
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(22, 19, 44, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Leaflet Map Specific Resets */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background-color: #1e1b4b !important;
+}
+
+/* Map Popups and controls styled for dark mode */
+.leaflet-bar {
+  border: 1px solid rgba(147, 51, 234, 0.3) !important;
+  box-shadow: none !important;
+}
+.leaflet-bar a {
+  background-color: #1e1b4b !important;
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid rgba(147, 51, 234, 0.2) !important;
+}
+.leaflet-bar a:hover {
+  background-color: #312e81 !important;
+  color: #ffffff !important;
+}
+
+/* Hide leaflet default attribution or style it cleanly */
+.leaflet-control-attribution {
+  background: rgba(15, 12, 32, 0.8) !important;
+  color: #6b7280 !important;
+  border-top-left-radius: 4px;
+}
+.leaflet-control-attribution a {
+  color: #a78bfa !important;
+}
+
+/* Custom glow animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+  }
+}
+
+.glow-purple {
+  animation: pulse-glow 3s infinite;
+}
