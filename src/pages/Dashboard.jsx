@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTransport } from '../context/TransportContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -32,10 +32,24 @@ const Dashboard = () => {
     trackModalOpen 
   } = useTransport();
 
-  // State for side menu & transport app view
-  const [isSideMenuOpen, setIsSideMenuOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState('transport'); // 'transport' default active
+  // Dynamic menu states
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const [hoveredMenu, setHoveredMenu] = useState('');
   const [showTransportApp, setShowTransportApp] = useState(false);
+
+  const closeTimerRef = useRef(null);
+
+  const handleMouseEnterMenuArea = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setIsSideMenuOpen(true);
+  };
+
+  const handleMouseLeaveMenuArea = () => {
+    closeTimerRef.current = setTimeout(() => {
+      setIsSideMenuOpen(false);
+      setHoveredMenu('');
+    }, 300); // Small delay before closing so user can move mouse smoothly
+  };
 
   const menuItems = [
     {
@@ -64,48 +78,67 @@ const Dashboard = () => {
     }
   ];
 
-  // Progress gauge helper for Attendance Widget
+  // Responsive Attendance Gauge Ring Component
   const AttendanceRing = ({ percentage, slot, code }) => {
-    const radius = 22;
+    const radius = 20;
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
     return (
       <div className="flex flex-col items-center">
-        <div className="relative w-14 h-14 flex items-center justify-center">
-          <svg className="w-14 h-14 transform -rotate-90">
-            {/* Background track */}
+        <div className="relative w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
+          <svg className="w-12 h-12 md:w-14 md:h-14 transform -rotate-90">
+            <circle
+              cx="24"
+              cy="24"
+              r={radius}
+              className="text-emerald-100/60 md:hidden"
+              strokeWidth="3.5"
+              stroke="currentColor"
+              fill="transparent"
+            />
             <circle
               cx="28"
               cy="28"
-              r={radius}
-              className="text-emerald-100"
+              r="22"
+              className="text-emerald-100/60 hidden md:block"
               strokeWidth="4"
               stroke="currentColor"
               fill="transparent"
             />
-            {/* Progress ring */}
+            <circle
+              cx="24"
+              cy="24"
+              r={radius}
+              className="text-[#22c55e] transition-all duration-1000 ease-out md:hidden"
+              strokeWidth="3.5"
+              strokeDasharray={2 * Math.PI * 20}
+              strokeDashoffset={2 * Math.PI * 20 - (percentage / 100) * (2 * Math.PI * 20)}
+              strokeLinecap="round"
+              stroke="currentColor"
+              fill="transparent"
+            />
             <circle
               cx="28"
               cy="28"
-              r={radius}
-              className="text-[#22c55e] transition-all duration-1000 ease-out"
+              r="22"
+              className="text-[#22c55e] transition-all duration-1000 ease-out hidden md:block"
               strokeWidth="4"
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
+              strokeDasharray={2 * Math.PI * 22}
+              strokeDashoffset={2 * Math.PI * 22 - (percentage / 100) * (2 * Math.PI * 22)}
               strokeLinecap="round"
               stroke="currentColor"
               fill="transparent"
             />
           </svg>
-          <span className="absolute text-xs font-bold text-slate-800">
+          <span className="absolute text-[11px] md:text-xs font-bold text-slate-800">
             {percentage}%
           </span>
         </div>
-        <span className="text-[10px] font-bold text-slate-700 uppercase mt-1">
+        <span className="text-[9px] md:text-[10px] font-bold text-slate-700 uppercase mt-0.5 md:mt-1">
           {slot}
         </span>
-        <span className="text-[9px] text-slate-400 font-medium tracking-tight">
+        <span className="text-[8px] md:text-[9px] text-slate-400 font-medium tracking-tight">
           {code}
         </span>
       </div>
@@ -115,69 +148,66 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen w-full relative flex flex-col justify-between overflow-hidden font-sans select-none bg-slate-900">
       
-      {/* Background Image (Beach Desktop Wallpaper) */}
+      {/* Tropical Beach Desktop Wallpaper */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0 transition-opacity duration-700"
         style={{ backgroundImage: `url('/beach_wallpaper.png')` }}
       />
-      {/* Subtle overlay */}
       <div className="absolute inset-0 bg-black/10 z-0 pointer-events-none" />
 
-      {/* TOP NAVBAR */}
-      <header className="relative z-30 bg-[#0c0915]/90 backdrop-blur-md border-b border-purple-950/40 px-4 py-2.5 flex items-center justify-between shadow-lg">
-        {/* Left: VStudy Logo Button with Red Badge */}
-        <div className="flex items-center gap-3">
-          <button 
-            onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}
-            className="relative w-9 h-9 rounded-full bg-white flex items-center justify-center p-1 shadow-md hover:scale-105 transition cursor-pointer"
-            title="Toggle Menu"
-          >
+      {/* TOP NAVIGATION HEADER */}
+      <header className="relative z-40 bg-[#0c0915]/90 backdrop-blur-md border-b border-purple-950/40 px-3 md:px-5 py-2.5 flex items-center justify-between shadow-lg">
+        
+        {/* Left: VStudy Logo Trigger (Hover/Click to open sidebar) */}
+        <div 
+          className="flex items-center gap-2.5 cursor-pointer group"
+          onMouseEnter={handleMouseEnterMenuArea}
+          onMouseLeave={handleMouseLeaveMenuArea}
+          onClick={() => setIsSideMenuOpen(!isSideMenuOpen)}
+        >
+          <div className="relative w-9 h-9 rounded-full bg-white flex items-center justify-center p-1 shadow-md group-hover:scale-105 transition">
             <img src={logoImg} alt="VStudy Logo" className="w-full h-full object-contain" />
-            {/* Red Notification Badge '1' */}
             <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center border border-white shadow">
               1
             </span>
-          </button>
-          <span className="text-lg font-bold text-white tracking-wide">
+          </div>
+          <span className="text-base md:text-lg font-bold text-white tracking-wide group-hover:text-purple-200 transition">
             Viana Study
           </span>
         </div>
 
-        {/* Right: Actions & User Avatar */}
-        <div className="flex items-center gap-2.5">
-          <button className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition flex items-center justify-center text-white cursor-pointer">
+        {/* Right: Actions & Profile */}
+        <div className="flex items-center gap-2 md:gap-3">
+          <button className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition flex items-center justify-center text-white cursor-pointer">
             <Calendar className="w-4 h-4" />
           </button>
           
-          <button className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition flex items-center justify-center text-white cursor-pointer">
+          <button className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition flex items-center justify-center text-white cursor-pointer">
             <MessageSquare className="w-4 h-4" />
           </button>
 
-          {/* User Profile Headshot */}
-          <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-white/60 shadow-md">
+          <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden border-2 border-white/60 shadow-md">
             <img src="/profile.png" alt="Kumaran S" className="w-full h-full object-cover" />
           </div>
         </div>
       </header>
 
-      {/* MAIN CONTENT AREA */}
-      <div className="relative z-20 flex-1 w-full p-4 md:p-6 flex flex-col justify-between">
+      {/* MAIN PORTAL AREA */}
+      <div className="relative z-20 flex-1 w-full p-3 md:p-6 flex flex-col justify-between">
         
-        {/* TOP-RIGHT ATTENDANCE WIDGET */}
-        <div className="absolute top-4 right-4 md:top-6 md:right-8 z-10">
+        {/* TOP-RIGHT ATTENDANCE WIDGET (Mobile Responsive) */}
+        <div className="w-full md:w-auto flex justify-end mb-4 md:mb-0 md:absolute md:top-6 md:right-8 z-10">
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/80 backdrop-blur-md border border-white/60 rounded-3xl p-4 shadow-xl max-w-sm"
+            className="w-full md:w-auto bg-white/85 backdrop-blur-md border border-white/70 rounded-3xl p-3.5 md:p-4 shadow-xl max-w-full md:max-w-sm"
           >
-            {/* Widget Header */}
-            <div className="flex items-center gap-2 mb-3 text-slate-700 text-xs font-bold">
+            <div className="flex items-center gap-2 mb-2.5 md:mb-3 text-slate-700 text-xs font-bold">
               <Calendar className="w-4 h-4 text-slate-600" />
               <span>M51 Jul-Sep 2026</span>
             </div>
 
-            {/* 4 Gauge Rings */}
-            <div className="grid grid-cols-4 gap-3 items-center">
+            <div className="grid grid-cols-4 gap-2 md:gap-3 items-center">
               <AttendanceRing percentage={88} slot="SLOT A" code="ELA0111" />
               <AttendanceRing percentage={88} slot="SLOT B" code="CSA0911" />
               <AttendanceRing percentage={80} slot="SLOT C" code="ECA1408" />
@@ -186,17 +216,20 @@ const Dashboard = () => {
           </motion.div>
         </div>
 
-        {/* LEFT SIDEBAR DRAWER MENU */}
+        {/* DYNAMIC HOVER SIDEBAR DRAWER MENU */}
         <AnimatePresence>
           {isSideMenuOpen && (
             <motion.div 
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -15 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="absolute top-4 left-4 z-30 flex items-start gap-2"
+              exit={{ opacity: 0, x: -15 }}
+              transition={{ duration: 0.2 }}
+              onMouseEnter={handleMouseEnterMenuArea}
+              onMouseLeave={handleMouseLeaveMenuArea}
+              className="w-full md:w-auto fixed md:absolute top-14 left-0 md:left-4 z-40 p-3 md:p-0 flex flex-col md:flex-row items-start gap-2"
             >
-              {/* Main Left Menu Container */}
-              <div className="w-64 bg-[#151221]/95 text-white border border-purple-900/40 rounded-2xl p-3 shadow-2xl backdrop-blur-md flex flex-col gap-1.5">
+              {/* Primary Sidebar Container */}
+              <div className="w-full md:w-64 bg-[#151221]/95 text-white border border-purple-900/40 rounded-2xl p-3 shadow-2xl backdrop-blur-lg flex flex-col gap-1.5">
                 
                 {/* VSpace Storage Card */}
                 <div className="bg-[#1e1930]/90 border border-purple-950/50 rounded-xl p-2.5 mb-1">
@@ -209,7 +242,6 @@ const Dashboard = () => {
                     </div>
                     <span className="text-[10px] text-slate-400 font-bold">0%</span>
                   </div>
-                  {/* Progress track */}
                   <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-1">
                     <div className="h-full bg-rose-500 w-[0%]" />
                   </div>
@@ -219,7 +251,10 @@ const Dashboard = () => {
                 </div>
 
                 {/* Notice Board */}
-                <button className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-semibold transition cursor-pointer">
+                <button 
+                  onMouseEnter={() => setHoveredMenu('')}
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-semibold transition cursor-pointer"
+                >
                   <div className="flex items-center gap-2.5">
                     <Megaphone className="w-4 h-4 text-slate-400" />
                     <span>Notice Board</span>
@@ -228,7 +263,10 @@ const Dashboard = () => {
                 </button>
 
                 {/* Admissions */}
-                <button className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-semibold transition cursor-pointer">
+                <button 
+                  onMouseEnter={() => setHoveredMenu('')}
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-semibold transition cursor-pointer"
+                >
                   <div className="flex items-center gap-2.5">
                     <GraduationCap className="w-4 h-4 text-slate-400" />
                     <span>Admissions</span>
@@ -236,11 +274,12 @@ const Dashboard = () => {
                   <ChevronRight className="w-4 h-4 text-slate-500" />
                 </button>
 
-                {/* Transport & Hostel (ACTIVE RED BUTTON WITH BADGE 1) */}
+                {/* Transport & Hostel (HOVER/CLICK ACTIVE DYNAMIC ITEM) */}
                 <button 
-                  onClick={() => setActiveMenu(activeMenu === 'transport' ? '' : 'transport')}
+                  onMouseEnter={() => setHoveredMenu('transport')}
+                  onClick={() => setHoveredMenu(hoveredMenu === 'transport' ? '' : 'transport')}
                   className={`w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-                    activeMenu === 'transport' 
+                    hoveredMenu === 'transport' 
                       ? 'bg-[#d9232e] text-white shadow-md' 
                       : 'hover:bg-white/5 text-slate-300'
                   }`}
@@ -253,12 +292,15 @@ const Dashboard = () => {
                     <span className="w-4 h-4 bg-white/20 text-white rounded-full text-[10px] flex items-center justify-center font-extrabold">
                       1
                     </span>
-                    <ChevronRight className={`w-4 h-4 transition-transform ${activeMenu === 'transport' ? 'rotate-90' : ''}`} />
+                    <ChevronRight className={`w-4 h-4 transition-transform ${hoveredMenu === 'transport' ? 'rotate-90 md:rotate-0' : ''}`} />
                   </div>
                 </button>
 
                 {/* My Learning */}
-                <button className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-semibold transition cursor-pointer">
+                <button 
+                  onMouseEnter={() => setHoveredMenu('')}
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 text-slate-300 text-xs font-semibold transition cursor-pointer"
+                >
                   <div className="flex items-center gap-2.5">
                     <BookOpen className="w-4 h-4 text-slate-400" />
                     <span>My Learning</span>
@@ -268,12 +310,13 @@ const Dashboard = () => {
 
               </div>
 
-              {/* SUBMENU PANEL FOR TRANSPORT & HOSTEL */}
-              {activeMenu === 'transport' && (
+              {/* DYNAMIC POP-OUT SUBMENU FOR TRANSPORT & HOSTEL */}
+              {hoveredMenu === 'transport' && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="w-52 bg-[#1b172b] text-white border border-purple-900/40 rounded-2xl p-3 shadow-2xl backdrop-blur-md space-y-2"
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="w-full md:w-56 bg-[#1b172b] text-white border border-purple-900/40 rounded-2xl p-3 shadow-2xl backdrop-blur-lg space-y-2 mt-2 md:mt-0"
                 >
                   <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest block px-1">
                     TRANSPORT & HOSTEL
@@ -281,8 +324,11 @@ const Dashboard = () => {
 
                   {/* Apply for Transport Button */}
                   <button
-                    onClick={() => setShowTransportApp(true)}
-                    className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-bold transition cursor-pointer border border-white/10"
+                    onClick={() => {
+                      setShowTransportApp(true);
+                      setIsSideMenuOpen(false);
+                    }}
+                    className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition cursor-pointer border border-white/15 shadow-sm"
                   >
                     <div className="flex items-center gap-2">
                       <Bus className="w-4 h-4 text-emerald-400" />
@@ -310,7 +356,7 @@ const Dashboard = () => {
 
       </div>
 
-      {/* TRANSPORT APPLICATION MODAL / OVERLAY VIEW */}
+      {/* TRANSPORT APPLICATION FULL OVERLAY SCREEN */}
       <AnimatePresence>
         {showTransportApp && (
           <motion.div 
@@ -327,7 +373,7 @@ const Dashboard = () => {
               >
                 <ChevronLeft className="w-4 h-4" /> Back
               </button>
-              <h1 className="text-base font-bold text-slate-100">
+              <h1 className="text-sm md:text-base font-bold text-slate-100">
                 Transport Application
               </h1>
               <button
