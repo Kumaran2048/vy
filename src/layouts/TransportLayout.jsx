@@ -26,7 +26,7 @@ const TransportLayout = ({ children }) => {
     }
   };
 
-  if (isLoginPage) {
+  if (isLoginPage || isDashboard) {
     return <>{children}</>;
   }
 
