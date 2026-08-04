@@ -120,7 +120,7 @@ export const TransportProvider = ({ children }) => {
         verificationTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
       });
       setScanState('success');
-    }, 2000); // 2 seconds processing delay
+    }, 400); // 400ms processing delay for snappy feedback
   };
 
   return (

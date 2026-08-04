@@ -102,22 +102,22 @@ const ScanModal = ({ isOpen, onClose }) => {
         >
           {/* Header */}
           <div className={`flex items-center justify-between px-6 py-4 border-b ${
-            scanState === 'success' ? 'bg-[#e2e2e2] border-[#d1d1d1]' : 'border-purple-950/40'
+            scanState === 'success' ? 'bg-[#ececec] border-[#d4d4d4]' : 'border-purple-950/40'
           }`}>
-            <div className={`flex items-center gap-3 ${scanState === 'success' ? 'text-emerald-500' : 'text-emerald-400'}`}>
-              <Bus className={`stroke-[2.2] ${scanState === 'success' ? 'w-6 h-6' : 'w-5 h-5'}`} />
+            <div className={`flex items-center gap-3 ${scanState === 'success' ? 'text-[#22c55e]' : 'text-emerald-400'}`}>
+              <Bus className={`stroke-[2.5] ${scanState === 'success' ? 'w-6 h-6 text-[#22c55e]' : 'w-5 h-5'}`} />
               <div className="flex flex-col">
-                <span className={`font-bold text-base ${scanState === 'success' ? 'text-slate-800' : 'text-white'}`}>
+                <span className={`font-bold text-[15px] ${scanState === 'success' ? 'text-slate-800' : 'text-white'}`}>
                   Scan to Verify Bus
                 </span>
-                {scanState === 'success' && (
-                  <span className="text-xs text-slate-500 font-medium">Point the camera at the QR sticker on the bus.</span>
-                )}
+                <span className={`text-[11px] font-medium ${scanState === 'success' ? 'text-slate-500' : 'text-slate-400'}`}>
+                  Point the camera at the QR sticker on the bus.
+                </span>
               </div>
             </div>
             <button
               onClick={onClose}
-              className={`transition p-1 rounded-lg cursor-pointer ${
+              className={`transition p-1.5 rounded-lg cursor-pointer ${
                 scanState === 'success' 
                   ? 'text-slate-500 hover:text-slate-700 hover:bg-slate-300/50' 
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
@@ -172,12 +172,13 @@ const ScanModal = ({ isOpen, onClose }) => {
                   Scanning for the bus QR...
                 </p>
 
-                {/* Manual Simulating Success Option */}
+                {/* Detect QR / Simulate QR Button */}
                 <button
                   onClick={() => handleVerifyPass("MOCK_QR")}
-                  className="mt-6 text-xs text-emerald-400 hover:text-emerald-300 font-bold border border-emerald-500/30 hover:border-emerald-500 px-4 py-2 rounded-xl transition cursor-pointer"
+                  className="mt-6 text-xs text-emerald-400 hover:text-emerald-300 font-bold border border-emerald-500/30 hover:border-emerald-500 px-4 py-2.5 rounded-xl transition cursor-pointer flex items-center gap-2 bg-emerald-950/30"
                 >
-                  Simulate QR Detect
+                  <Check className="w-3.5 h-3.5" />
+                  Detect QR / Verify
                 </button>
               </div>
             )}
@@ -196,50 +197,50 @@ const ScanModal = ({ isOpen, onClose }) => {
                 
                 {/* Profile Image */}
                 <div className="relative mb-3">
-                  <div className="w-24 h-24 rounded-full border-[3px] border-[#d1fae5] overflow-hidden bg-white shadow-sm flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full border-[3px] border-[#a7f3d0] overflow-hidden bg-white shadow-sm flex items-center justify-center">
                     <img src="/profile.png" alt="Kumaran S" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
-                <h2 className="text-[15px] font-bold text-slate-800 tracking-wide uppercase mb-6">
+                <h2 className="text-[15px] font-bold text-slate-800 tracking-wider uppercase mb-5">
                   KUMARAN S
                 </h2>
 
                 {/* Allowed to Travel Box */}
-                <div className="w-full bg-[#f0fdf4] border border-[#bbf7d0] rounded-2xl p-5 mb-6 flex flex-col items-center text-center">
-                  <div className="w-11 h-11 bg-[#047857] rounded-full flex items-center justify-center text-white mb-3">
+                <div className="w-full bg-[#f0fdf4] border border-[#bbf7d0] rounded-2xl p-5 mb-5 flex flex-col items-center text-center">
+                  <div className="w-11 h-11 bg-[#047857] rounded-full flex items-center justify-center text-white mb-2.5 shadow-sm">
                     <Check className="w-6 h-6 stroke-[3]" />
                   </div>
-                  <h3 className="text-[17px] font-bold text-[#047857] tracking-tight leading-snug mb-2">
-                    Allowed to Travel — Different Route
+                  <h3 className="text-[17px] md:text-[18px] font-bold text-[#047857] tracking-tight leading-snug mb-1.5">
+                    Allowed to Travel
                   </h3>
-                  <p className="text-[13px] text-[#047857]/80 font-medium leading-tight px-2">
-                    This bus is running a different route, but your pass fare matches — you are allowed to travel.
+                  <p className="text-[12px] md:text-[13px] text-[#047857]/90 font-medium leading-snug px-1">
+                    Your bus pass is verified — you are allowed to travel on this bus.
                   </p>
                 </div>
 
                 {/* Bus Details */}
-                <div className="w-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden mb-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                  <div className="flex justify-between items-center text-[13px] px-4 py-3">
+                <div className="w-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden mb-6 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+                  <div className="flex justify-between items-center text-[13px] px-4 py-3 border-b border-slate-100">
                     <span className="text-slate-500 font-medium">Bus</span>
-                    <span className="text-slate-800 font-bold">{verifiedBusDetails.busNumber}</span>
+                    <span className="text-slate-900 font-bold">{verifiedBusDetails.busNumber}</span>
                   </div>
-                  <div className="flex justify-between items-center text-[13px] px-4 py-3">
+                  <div className="flex justify-between items-center text-[13px] px-4 py-3 border-b border-slate-100">
                     <span className="text-slate-500 font-medium">Bus Route</span>
-                    <span className="text-slate-800 font-bold">{verifiedBusDetails.busRoute}</span>
+                    <span className="text-slate-900 font-bold">{verifiedBusDetails.busRoute}</span>
                   </div>
                   <div className="flex justify-between items-center text-[13px] px-4 py-3">
                     <span className="text-slate-500 font-medium">Your Pass Route</span>
-                    <span className="text-slate-800 font-bold">{verifiedBusDetails.studentRoute}</span>
+                    <span className="text-slate-900 font-bold">{verifiedBusDetails.studentRoute}</span>
                   </div>
                 </div>
 
                 {/* Scan Again Button */}
                 <button
                   onClick={() => setScanState('opening')}
-                  className="w-full flex items-center justify-center gap-2 bg-[#34a853] hover:bg-[#2d9249] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm transition-colors cursor-pointer text-[15px]"
+                  className="w-full flex items-center justify-center gap-2 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm transition-colors cursor-pointer text-[15px]"
                 >
-                  <RefreshCw className="w-4 h-4" />
+                  <RefreshCw className="w-4 h-4 stroke-[2.5]" />
                   Scan Again
                 </button>
               </div>
