@@ -1,12 +1,13 @@
 // Mock database for VStudy College Transport Management System
 
 export const studentData = {
-  name: "KUMARAN S",
-  regNo: "192372048",
+  name: "JEEVAN KUMAR J",
+  regNo: "192419060",
+  profilePhoto: "/profile.png",
   department: "School of Engineering (SIMATS)",
-  avatarText: "K",
+  avatarText: "J",
   passStatus: "Active",
-  validTill: "20 Jul 2026", // Will be formatted dynamically in pages
+  validTill: "20 Jul 2026", 
   pickupBus: {
     number: "TN87F3994",
     route: "7B - Puzhal Camp",
@@ -73,3 +74,108 @@ export const notificationsList = [
     type: "success"
   }
 ];
+
+export const routesList = [
+  {
+    id: "route-7f",
+    routeNumber: "7F",
+    routeName: "Ambattur OT II",
+    busName: "TN87F7777",
+    fees: 55000,
+    dailyFee: 150,
+    capacity: 55,
+    vacantSeats: 33,
+    amenities: ["AC", "GPS Tracking", "CCTV", "WiFi"],
+    pickupStops: [
+      { id: "7f-p1", stopName: "Ambattur OT", time: "07:15", stopOrder: 1, lat: 13.1300, lng: 80.1500 },
+      { id: "7f-p2", stopName: "Ambattur Bus Stop", time: "07:25", stopOrder: 2, lat: 13.1320, lng: 80.1520 },
+      { id: "7f-p3", stopName: "SIMATS Campus", time: "08:10", stopOrder: 3, lat: 13.0280, lng: 80.0762 }
+    ],
+    dropStops: [
+      { id: "7f-d1", stopName: "SIMATS Campus", time: "16:00", stopOrder: 1, lat: 13.0280, lng: 80.0762 },
+      { id: "7f-d2", stopName: "Ambattur Bus Stop", time: "16:15", stopOrder: 2, lat: 13.1320, lng: 80.1520 },
+      { id: "7f-d3", stopName: "Ambattur OT", time: "16:30", stopOrder: 3, lat: 13.1300, lng: 80.1500 }
+    ]
+  },
+  {
+    id: "route-7b",
+    routeNumber: "7B",
+    routeName: "Puzhal Camp",
+    busName: "TN87F3994",
+    fees: 18000,
+    dailyFee: 120,
+    capacity: 55,
+    vacantSeats: 13,
+    amenities: ["AC", "GPS Tracking", "CCTV", "First Aid"],
+    pickupStops: [
+      { id: "p1", stopName: "Puzhal Camp", time: "07:15", stopOrder: 1, lat: 13.1500, lng: 80.1600 },
+      { id: "p2", stopName: "Kolathur Bypass", time: "07:25", stopOrder: 2, lat: 13.1420, lng: 80.1550 },
+      { id: "p3", stopName: "Ambattur OT", time: "07:35", stopOrder: 3, lat: 13.1300, lng: 80.1500 },
+      { id: "p4", stopName: "Maduravoyal Toll Plaza", time: "07:45", stopOrder: 4, lat: 13.1100, lng: 80.1350 },
+      { id: "p5", stopName: "SIMATS Campus", time: "08:10", stopOrder: 5, lat: 13.0280, lng: 80.0762 }
+    ],
+    dropStops: [
+      { id: "d1", stopName: "SIMATS Campus", time: "16:00", stopOrder: 1, lat: 13.0280, lng: 80.0762 },
+      { id: "d2", stopName: "Maduravoyal Toll Plaza", time: "16:25", stopOrder: 2, lat: 13.1100, lng: 80.1350 },
+      { id: "d3", stopName: "Ambattur OT", time: "16:40", stopOrder: 3, lat: 13.1300, lng: 80.1500 },
+      { id: "d4", stopName: "Kolathur Bypass", time: "16:55", stopOrder: 4, lat: 13.1420, lng: 80.1550 },
+      { id: "d5", stopName: "Villa Apartment", time: "17:15", stopOrder: 5, lat: 13.1500, lng: 80.1600 }
+    ]
+  },
+  {
+    id: "route-12a",
+    routeNumber: "12A",
+    routeName: "Tambaram Sanatorium",
+    busName: "TN87F4012",
+    fees: 21000,
+    dailyFee: 140,
+    capacity: 50,
+    vacantSeats: 8,
+    amenities: ["GPS Tracking", "CCTV", "First Aid"],
+    pickupStops: [
+      { id: "t1", stopName: "Tambaram Sanatorium", time: "07:00", stopOrder: 1, lat: 12.9279, lng: 80.1211 },
+      { id: "t2", stopName: "Chromepet", time: "07:12", stopOrder: 2, lat: 12.9516, lng: 80.1462 },
+      { id: "t3", stopName: "Pallavaram", time: "07:22", stopOrder: 3, lat: 12.9675, lng: 80.1491 },
+      { id: "t4", stopName: "SIMATS Campus", time: "08:15", stopOrder: 4, lat: 13.0280, lng: 80.0762 }
+    ],
+    dropStops: [
+      { id: "td1", stopName: "SIMATS Campus", time: "16:00", stopOrder: 1, lat: 13.0280, lng: 80.0762 },
+      { id: "td2", stopName: "Pallavaram", time: "16:50", stopOrder: 2, lat: 12.9675, lng: 80.1491 },
+      { id: "td3", stopName: "Chromepet", time: "17:00", stopOrder: 3, lat: 12.9516, lng: 80.1462 },
+      { id: "td4", stopName: "Tambaram Sanatorium", time: "17:15", stopOrder: 4, lat: 12.9279, lng: 80.1211 }
+    ]
+  }
+];
+
+export const initialApplicationsList = [
+  {
+    id: "app-7f",
+    student_name: "KUMARAN S",
+    register_number: "192372048",
+    photo_url: "/profile.png",
+    profile_photo: "/profile.png",
+    routeId: "route-7f",
+    routeNumber: "7F",
+    routeName: "Ambattur OT II",
+    pickupStopId: "7f-p1",
+    pickup_stop_name: "Ambattur OT",
+    pickup_stop_time: "07:15",
+    dropStopId: "7f-d2",
+    drop_stop_name: "Ambattur Bus Stop",
+    drop_stop_time: "16:15",
+    pass_type: "DAILY",
+    passType: "DAILY",
+    trip_direction: "DROP",
+    tripDirection: "DROP",
+    fees: 150,
+    annualFee: 150,
+    status: "APPROVED", // Matches screenshot "APPROVED"
+    createdAt: "2026-07-21T07:03:00Z",
+    valid_from: "2026-07-21",
+    valid_to: "2027-02-28",
+    validFrom: "2026-07-21",
+    validTo: "2027-02-28"
+  }
+];
+
+

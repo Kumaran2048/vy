@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import BusPass from './pages/BusPass';
 import TrackBus from './pages/TrackBus';
+import TransportApplication from './components/TransportApplication';
 import { Toaster } from 'react-hot-toast';
 
 // Route protection wrapper
@@ -28,6 +29,14 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/transport"
+            element={
+              <ProtectedRoute>
+                <TransportApplication onClose={() => window.history.back()} />
               </ProtectedRoute>
             }
           />

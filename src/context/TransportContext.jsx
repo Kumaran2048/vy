@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { studentData, routeCoordinates, busData } from '../data/mockData';
+import { studentData, routeCoordinates, busData, routesList, initialApplicationsList } from '../data/mockData';
 
 const TransportContext = createContext();
 
 export const TransportProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [student, setStudent] = useState(studentData);
+  const [routes, setRoutes] = useState(routesList);
+  const [applications, setApplications] = useState(initialApplicationsList);
   
   // QR Countdown & Verification State
   const [countdown, setCountdown] = useState(59);
@@ -29,6 +31,11 @@ export const TransportProvider = ({ children }) => {
   const [trackModalOpen, setTrackModalOpen] = useState(false);
   const [activeTrackingType, setActiveTrackingType] = useState('pickup'); // 'pickup' | 'drop'
 
+  // Computed active pass
+  const activePass = applications.find(
+    (app) => String(app.status).toUpperCase() === 'PAID' || String(app.status).toUpperCase() === 'ACTIVE'
+  ) || null;
+
   // Helper to generate a new 6-digit manual verification code
   const generateManualCode = () => {
     const code1 = Math.floor(100 + Math.random() * 900);
@@ -46,8 +53,8 @@ export const TransportProvider = ({ children }) => {
     const qrPayload = JSON.stringify({
       studentName: student.name,
       registerNumber: student.regNo,
-      busNumber: student.dropBus.number,
-      route: student.dropBus.route,
+      busNumber: activePass ? activePass.busName || student.dropBus.number : student.dropBus.number,
+      route: activePass ? `${activePass.routeNumber} - ${activePass.routeName}` : student.dropBus.route,
       timestamp: newTimestamp
     });
     setQrCodeData(qrPayload);
@@ -56,7 +63,7 @@ export const TransportProvider = ({ children }) => {
   // Initialize QR details once
   useEffect(() => {
     refreshPassDetails();
-  }, [student]);
+  }, [student, activePass]);
 
   // Countdown timer logic (59 -> 0)
   useEffect(() => {
@@ -123,11 +130,97 @@ export const TransportProvider = ({ children }) => {
     }, 400); // 400ms processing delay for snappy feedback
   };
 
+  // Action: Pay application fee to activate pass
+  const payApplication = (appId) => {
+    setApplications((prev) =>
+      prev.map((app) =>
+        app.id === appId ? { ...app, status: 'PAID' } : app
+      )
+    );
+  };
+
+  // Action: Cancel application
+  const cancelApplication = (appId) => {
+    setApplications((prev) => prev.filter((app) => app.id !== appId));
+  };
+
+  // Action: Apply for a pass
+  const submitApplication = (newAppData) => {
+    const targetRoute = routes.find((r) => r.id === newAppData.routeId);
+    const pickupStopObj = targetRoute?.pickupStops?.find((s) => s.id === newAppData.pickupStopId);
+    const dropStopObj = targetRoute?.dropStops?.find((s) => s.id === newAppData.dropStopId);
+
+    const isDaily = newAppData.passType === 'DAILY';
+    const isPickup = newAppData.tripDirection === 'PICKUP' || newAppData.tripDirection === 'BOTH';
+    const isDrop = newAppData.tripDirection === 'DROP' || newAppData.tripDirection === 'BOTH';
+
+    const calcFee = isDaily
+      ? (targetRoute?.dailyFee || 100) * ((isPickup ? 1 : 0) + (isDrop ? 1 : 0))
+      : targetRoute?.fees || 18000;
+
+    const newApp = {
+      id: `app-${Date.now()}`,
+      routeId: targetRoute?.id || newAppData.routeId,
+      routeNumber: targetRoute?.routeNumber || 'Route',
+      routeName: targetRoute?.routeName || 'Campus Shuttle',
+      pickupStopId: newAppData.pickupStopId,
+      pickup_stop_name: pickupStopObj?.stopName || 'Campus Gate',
+      pickup_stop_time: pickupStopObj?.time || '07:30',
+      dropStopId: newAppData.dropStopId,
+      drop_stop_name: dropStopObj?.stopName || 'Student Residence',
+      drop_stop_time: dropStopObj?.time || '17:30',
+      pass_type: newAppData.passType || 'ANNUAL',
+      passType: newAppData.passType || 'ANNUAL',
+      trip_direction: newAppData.tripDirection || 'BOTH',
+      tripDirection: newAppData.tripDirection || 'BOTH',
+      fees: calcFee,
+      annualFee: calcFee,
+      status: isDaily ? 'PAID' : 'APPROVED', // Daily passes are direct pay, Annual are Approved awaiting payment
+      createdAt: new Date().toISOString(),
+      valid_from: isDaily ? newAppData.passDate || new Date().toISOString().slice(0, 10) : '2026-08-01',
+      valid_to: isDaily ? newAppData.passDate || new Date().toISOString().slice(0, 10) : '2027-05-31',
+      validFrom: isDaily ? newAppData.passDate || new Date().toISOString().slice(0, 10) : '2026-08-01',
+      validTo: isDaily ? newAppData.passDate || new Date().toISOString().slice(0, 10) : '2027-05-31'
+    };
+
+    setApplications((prev) => [newApp, ...prev]);
+    return newApp;
+  };
+
+  // Action: Transfer Route
+  const transferApplication = (appId, transferData) => {
+    const targetRoute = routes.find((r) => r.id === transferData.routeId);
+    const pickupStopObj = targetRoute?.pickupStops?.find((s) => s.id === transferData.pickupStopId);
+    const dropStopObj = targetRoute?.dropStops?.find((s) => s.id === transferData.dropStopId);
+
+    setApplications((prev) =>
+      prev.map((app) => {
+        if (app.id !== appId) return app;
+        return {
+          ...app,
+          routeId: targetRoute?.id || transferData.routeId,
+          routeNumber: targetRoute?.routeNumber || app.routeNumber,
+          routeName: targetRoute?.routeName || app.routeName,
+          pickupStopId: transferData.pickupStopId,
+          pickup_stop_name: pickupStopObj?.stopName || app.pickup_stop_name,
+          pickup_stop_time: pickupStopObj?.time || app.pickup_stop_time,
+          dropStopId: transferData.dropStopId,
+          drop_stop_name: dropStopObj?.stopName || app.drop_stop_name,
+          drop_stop_time: dropStopObj?.time || app.drop_stop_time,
+          status: 'AWAITING_PAYMENT'
+        };
+      })
+    );
+  };
+
   return (
     <TransportContext.Provider
       value={{
         isAuthenticated,
         student,
+        routes,
+        applications,
+        activePass,
         countdown,
         qrCodeData,
         manualCode,
@@ -146,6 +239,10 @@ export const TransportProvider = ({ children }) => {
         setTrackModalOpen,
         activeTrackingType,
         setActiveTrackingType,
+        payApplication,
+        cancelApplication,
+        submitApplication,
+        transferApplication,
         login,
         logout
       }}
@@ -156,3 +253,4 @@ export const TransportProvider = ({ children }) => {
 };
 
 export const useTransport = () => useContext(TransportContext);
+

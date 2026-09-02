@@ -44,10 +44,12 @@ const BusPass = () => {
 
         {/* Student Profile Info */}
         <div className="px-6 pt-6 pb-4 flex flex-col items-center text-center">
-          {/* Avatar Bubble */}
-          <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-500 text-white font-bold flex items-center justify-center text-3xl shadow-md border-4 border-slate-100 mb-3 select-none">
-            {student.avatarText}
-          </div>
+          {/* Student Profile Photo */}
+          <img
+            src={student?.profilePhoto || "/profile.png"}
+            alt={student.name}
+            className="w-48 h-48 rounded-full object-cover border-4 border-blue-100 shadow-md mb-3 select-none bg-blue-50"
+          />
 
           {/* Student Name & Reg */}
           <h2 className="text-lg font-extrabold text-slate-900 tracking-tight leading-snug">

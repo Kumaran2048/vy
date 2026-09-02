@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import ScanModal from '../components/ScanModal';
 import TrackModal from '../components/TrackModal';
+import TransportApplication from '../components/TransportApplication';
 import logoImg from '../assets/vstudy-logo.svg';
 
 const Dashboard = () => {
@@ -360,80 +361,12 @@ const Dashboard = () => {
       <AnimatePresence>
         {showTransportApp && (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            className="fixed inset-0 z-50 bg-[#090614] flex flex-col justify-start overflow-y-auto"
+            exit={{ opacity: 0, scale: 0.98 }}
+            className="fixed inset-0 z-50 bg-[#090614] flex flex-col overflow-hidden"
           >
-            {/* Header */}
-            <div className="bg-[#120d26] border-b border-purple-950/40 px-4 py-3 flex items-center justify-between sticky top-0 z-10">
-              <button
-                onClick={() => setShowTransportApp(false)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-200 transition text-xs font-medium cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" /> Back
-              </button>
-              <h1 className="text-sm md:text-base font-bold text-slate-100">
-                Transport Application
-              </h1>
-              <button
-                onClick={() => setShowTransportApp(false)}
-                className="text-slate-400 hover:text-white p-1 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Content Container */}
-            <div className="w-full max-w-sm mx-auto p-4 flex flex-col items-center justify-start flex-1 pt-6">
-              
-              {/* Active Pass Badge */}
-              <div className="flex items-center gap-1.5 px-4 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 font-semibold text-xs mb-3 cursor-default">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                Pass Active
-              </div>
-
-              {/* Main Headers */}
-              <h2 className="text-2xl font-extrabold text-white text-center tracking-tight mb-1">
-                Your Bus Pass
-              </h2>
-              <p className="text-xs text-slate-400 text-center mb-8">
-                Choose what you'd like to do
-              </p>
-
-              {/* Action Cards */}
-              <div className="w-full space-y-4">
-                {menuItems.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={item.action}
-                    className="glass-panel w-full p-4 rounded-3xl flex items-center justify-between cursor-pointer hover:border-purple-600/40 hover:bg-[#1a163a]/80 transition-all duration-300 relative overflow-hidden group shadow-md"
-                  >
-                    <div className="flex items-center gap-4 z-10">
-                      <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-105`}>
-                        {item.icon}
-                      </div>
-                      
-                      <div className="text-left">
-                        <h3 className="text-base font-bold text-white tracking-wide group-hover:text-purple-200 transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-slate-400 mt-0.5 font-medium">
-                          {item.subtitle}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="text-slate-500 group-hover:text-white transition-colors duration-300 pr-2">
-                      <ChevronRight className="w-5 h-5" />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-            </div>
+            <TransportApplication onClose={() => setShowTransportApp(false)} />
           </motion.div>
         )}
       </AnimatePresence>
