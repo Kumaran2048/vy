@@ -741,8 +741,8 @@ export default function TransportApplication({ onClose }) {
         {viewMode === 'applications' && (
           <div className="w-full max-w-3xl space-y-4">
             
-            {/* Header bar matching screenshot 1 */}
-            <div className="flex items-center justify-between bg-[#150f2f]/80 p-3 rounded-2xl border border-purple-900/30">
+            {/* Sub-header with Back + title + count */}
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <button
                   type="button"
@@ -758,14 +758,6 @@ export default function TransportApplication({ onClose }) {
                   </p>
                 </div>
               </div>
-
-              <button
-                type="button"
-                onClick={openApplyWizard}
-                className={`${t.btnPrimary} px-4 py-2 text-xs font-black inline-flex items-center gap-1.5`}
-              >
-                <Bus className="w-4 h-4" /> Apply
-              </button>
             </div>
 
             {/* Rejected application banner */}

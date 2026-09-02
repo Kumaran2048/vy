@@ -160,6 +160,10 @@ export const TransportProvider = ({ children }) => {
 
     const newApp = {
       id: `app-${Date.now()}`,
+      student_name: student.name,
+      register_number: student.regNo,
+      photo_url: student.profilePhoto || '/profile.png',
+      profile_photo: student.profilePhoto || '/profile.png',
       routeId: targetRoute?.id || newAppData.routeId,
       routeNumber: targetRoute?.routeNumber || 'Route',
       routeName: targetRoute?.routeName || 'Campus Shuttle',
