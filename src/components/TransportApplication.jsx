@@ -564,35 +564,35 @@ export default function TransportApplication({ onClose }) {
               </p>
             </div>
 
-            {/* 4 Feature Cards Grid (2x2) */}
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            {/* 4 Feature Cards Grid (2x2 Always, Mobile Responsive) */}
+            <div className="w-full grid grid-cols-2 gap-3 sm:gap-5">
               
               {/* Card 1: Scan to Verify Bus */}
               <button
                 type="button"
                 disabled={!hasActivePass}
                 onClick={() => setScanModalOpen(true)}
-                className={`group relative overflow-hidden rounded-3xl border p-6 flex flex-col items-center justify-center text-center gap-3.5 transition-all duration-300 ${
+                className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border p-4 sm:p-6 flex flex-col items-center justify-center text-center gap-2.5 sm:gap-3.5 transition-all duration-300 ${
                   !hasActivePass 
                     ? "opacity-60 cursor-not-allowed bg-[#140f2d]/80 border-purple-900/30" 
                     : "hover:-translate-y-1 hover:shadow-xl hover:border-emerald-500/50 bg-[#171233]/90 border-purple-900/40 cursor-pointer"
                 }`}
               >
                 {!hasActivePass && (
-                  <span className={`absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold ${t.badgeWarning}`}>
-                    <Lock className="h-3 w-3" /> Locked
+                  <span className={`absolute right-2 top-2 sm:right-3 sm:top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold ${t.badgeWarning}`}>
+                    <Lock className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> Locked
                   </span>
                 )}
                 
-                <span className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <ScanLine className="h-7 w-7 stroke-[2.5]" />
+                <span className="inline-flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <ScanLine className="h-6 w-6 sm:h-7 sm:w-7 stroke-[2.5]" />
                 </span>
                 
                 <div>
-                  <span className={`block text-base font-extrabold ${t.textPrimary}`}>
+                  <span className={`block text-xs sm:text-base font-extrabold ${t.textPrimary}`}>
                     Scan to Verify Bus
                   </span>
-                  <span className={`mt-0.5 block text-xs ${t.textMuted}`}>
+                  <span className={`mt-0.5 block text-[10px] sm:text-xs ${t.textMuted}`}>
                     Check you can board
                   </span>
                 </div>
@@ -602,17 +602,17 @@ export default function TransportApplication({ onClose }) {
               <button
                 type="button"
                 onClick={() => setViewMode('pass')}
-                className="group relative overflow-hidden rounded-3xl border p-6 flex flex-col items-center justify-center text-center gap-3.5 transition-all duration-300 bg-[#171233]/90 border-purple-900/40 hover:-translate-y-1 hover:shadow-xl hover:border-blue-500/50 cursor-pointer"
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border p-4 sm:p-6 flex flex-col items-center justify-center text-center gap-2.5 sm:gap-3.5 transition-all duration-300 bg-[#171233]/90 border-purple-900/40 hover:-translate-y-1 hover:shadow-xl hover:border-blue-500/50 cursor-pointer"
               >
-                <span className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <Ticket className="h-7 w-7 stroke-[2.5]" />
+                <span className="inline-flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <Ticket className="h-6 w-6 sm:h-7 sm:w-7 stroke-[2.5]" />
                 </span>
 
                 <div>
-                  <span className={`block text-base font-extrabold ${t.textPrimary}`}>
+                  <span className={`block text-xs sm:text-base font-extrabold ${t.textPrimary}`}>
                     View Bus Pass
                   </span>
-                  <span className={`mt-0.5 block text-xs ${t.textMuted}`}>
+                  <span className={`mt-0.5 block text-[10px] sm:text-xs ${t.textMuted}`}>
                     Show your QR pass
                   </span>
                 </div>
@@ -623,27 +623,27 @@ export default function TransportApplication({ onClose }) {
                 type="button"
                 disabled={!hasActivePass}
                 onClick={() => setTrackModalOpen(true)}
-                className={`group relative overflow-hidden rounded-3xl border p-6 flex flex-col items-center justify-center text-center gap-3.5 transition-all duration-300 ${
+                className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border p-4 sm:p-6 flex flex-col items-center justify-center text-center gap-2.5 sm:gap-3.5 transition-all duration-300 ${
                   !hasActivePass 
                     ? "opacity-60 cursor-not-allowed bg-[#140f2d]/80 border-purple-900/30" 
                     : "hover:-translate-y-1 hover:shadow-xl hover:border-violet-500/50 bg-[#171233]/90 border-purple-900/40 cursor-pointer"
                 }`}
               >
                 {!hasActivePass && (
-                  <span className={`absolute right-3 top-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold ${t.badgeWarning}`}>
-                    <Lock className="h-3 w-3" /> Locked
+                  <span className={`absolute right-2 top-2 sm:right-3 sm:top-3 inline-flex items-center gap-1 rounded-full px-2 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold ${t.badgeWarning}`}>
+                    <Lock className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> Locked
                   </span>
                 )}
 
-                <span className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <Navigation className="h-7 w-7 rotate-45 stroke-[2.5]" />
+                <span className="inline-flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <Navigation className="h-6 w-6 sm:h-7 sm:w-7 rotate-45 stroke-[2.5]" />
                 </span>
 
                 <div>
-                  <span className={`block text-base font-extrabold ${t.textPrimary}`}>
+                  <span className={`block text-xs sm:text-base font-extrabold ${t.textPrimary}`}>
                     Track My Bus
                   </span>
-                  <span className={`mt-0.5 block text-xs ${t.textMuted}`}>
+                  <span className={`mt-0.5 block text-[10px] sm:text-xs ${t.textMuted}`}>
                     Live bus location
                   </span>
                 </div>
@@ -653,28 +653,28 @@ export default function TransportApplication({ onClose }) {
               <button
                 type="button"
                 onClick={() => setViewMode('applications')}
-                className="group relative overflow-hidden rounded-3xl border p-6 flex flex-col items-center justify-center text-center gap-3.5 transition-all duration-300 bg-[#171233]/90 border-purple-900/40 hover:-translate-y-1 hover:shadow-xl hover:border-amber-500/50 cursor-pointer"
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border p-4 sm:p-6 flex flex-col items-center justify-center text-center gap-2.5 sm:gap-3.5 transition-all duration-300 bg-[#171233]/90 border-purple-900/40 hover:-translate-y-1 hover:shadow-xl hover:border-amber-500/50 cursor-pointer"
               >
                 {awaitingPaymentCount > 0 && (
-                  <span className="absolute right-3 top-3 inline-flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-red-600 px-2 text-xs font-black text-white shadow-md animate-pulse">
+                  <span className="absolute right-2 top-2 sm:right-3 sm:top-3 inline-flex h-5 sm:h-6 min-w-[1.25rem] sm:min-w-[1.5rem] items-center justify-center rounded-full bg-red-600 px-1.5 text-[10px] sm:text-xs font-black text-white shadow-md animate-pulse">
                     {awaitingPaymentCount}
                   </span>
                 )}
 
-                <span className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <ClipboardList className="h-7 w-7 stroke-[2.5]" />
+                <span className="inline-flex h-12 w-12 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <ClipboardList className="h-6 w-6 sm:h-7 sm:w-7 stroke-[2.5]" />
                 </span>
 
                 <div>
-                  <span className={`block text-base font-extrabold ${t.textPrimary}`}>
+                  <span className={`block text-xs sm:text-base font-extrabold ${t.textPrimary}`}>
                     My Applications
                   </span>
-                  <span className={`mt-0.5 block text-xs ${t.textMuted}`}>
+                  <span className={`mt-0.5 block text-[10px] sm:text-xs ${t.textMuted}`}>
                     {awaitingPaymentCount > 0
                       ? `${awaitingPaymentCount} awaiting payment`
                       : activeAppsCount > 0
-                      ? `${activeAppsCount} active pass${activeAppsCount > 1 ? 'es' : ''}`
-                      : "Apply for a pass"
+                      ? `${activeAppsCount} active`
+                      : "Apply for pass"
                     }
                   </span>
                 </div>
