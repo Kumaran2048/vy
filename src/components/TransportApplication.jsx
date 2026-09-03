@@ -285,22 +285,26 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
 
         <div className="mt-3 inline-flex items-center gap-2 text-lg font-medium text-slate-800">
           <Bus className="w-5 h-5 text-blue-600" />
-          <span>{app.routeNumber ? `${app.routeNumber} - ${app.routeName}` : (app.routeName || '7F - Ambattur OT II')}</span>
+          <span>{app.routeNumber ? `${app.routeNumber} - ${app.routeName}` : (app.routeName || '7B - Puzhal Camp')}</span>
         </div>
 
-        <div className="mt-2.5 w-full px-2 space-y-1 text-xs">
+        <div className="mt-3 w-full px-2 space-y-1.5 text-[11px]">
+          <div className="flex items-center justify-center gap-2 text-slate-500 font-normal">
+            <span className="rounded bg-emerald-100 text-emerald-700 px-1.5 py-0.5 text-[10px] font-medium">Pickup</span>
+            <span>{app.pickup_stop_name || 'Shanmugapuram'} · {app.pickup_stop_time || '06:15'} → SIMATS · 07:30</span>
+          </div>
           <div className="flex items-center justify-center gap-2 text-slate-500 font-normal">
             <span className="rounded bg-red-100 text-red-600 px-1.5 py-0.5 text-[10px] font-medium">Drop</span>
-            <span>SIMATS (Thandalam campus) · 15:20 → {app.drop_stop_name || 'Ambattur'}<br/>Bus Stop · {app.drop_stop_time || '16:15'}</span>
+            <span>SIMATS · 15:30 → {app.drop_stop_name || 'Kallikuppam Tea Kadai'} · {app.drop_stop_time || '17:25'}</span>
           </div>
         </div>
 
         <div className="mt-4 flex items-center justify-center gap-3">
-          <span className="rounded-full bg-blue-100 text-blue-600 px-3 py-1 text-xs font-medium">
-            {isAnnual ? 'Annual Pass' : 'Trip Pass'}
+          <span className="rounded-full bg-blue-100 text-blue-700 px-3 py-1 text-xs font-medium">
+            {isAnnual ? 'Annual Pass' : 'Annual Pass'}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 text-emerald-700 px-3 py-1 text-xs font-bold">
-            <CircleCheck className="w-3.5 h-3.5" /> Active
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 text-emerald-700 px-3 py-1 text-xs font-medium">
+            <CircleCheck className="w-4 h-4" /> Active
           </span>
         </div>
       </div>
@@ -314,7 +318,7 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
 
       {/* QR Code Container */}
       <div className="px-5 pb-8 pt-4 flex flex-col items-center">
-        <div className="bg-white p-3.5 border border-slate-200 rounded-2xl shadow-sm mb-3">
+        <div className="bg-white p-2 border border-slate-200 rounded-xl shadow-sm mb-3">
           {qrCodeData ? (
             <div className="w-44 h-44 select-none">
               <QRCode
@@ -329,17 +333,17 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
           )}
         </div>
 
-        <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">
-          MANUAL VERIFICATION CODE
+        <span className="text-[10px] font-medium text-slate-400 tracking-widest uppercase">
+          MANUAL CODE
         </span>
-        <div className="text-xl font-extrabold tracking-[0.25em] text-slate-800 font-mono mt-0.5">
-          {manualCode}
+        <div className="text-2xl font-bold tracking-[0.3em] text-slate-800 font-mono mt-0.5 ml-1">
+          {String(manualCode || '655271').split('').join(' ')}
         </div>
 
-        <div className="flex items-center gap-1.5 text-slate-500 font-semibold text-xs mt-3">
+        {/* <div className="flex items-center gap-1.5 text-slate-500 font-semibold text-xs mt-3">
           <RefreshCw className="w-3.5 h-3.5 text-blue-600 animate-spin" />
           <span>Refreshes in {countdown}s</span>
-        </div>
+        </div> */}
       </div>
 
     </div>
