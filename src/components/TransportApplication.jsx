@@ -237,87 +237,84 @@ const RouteDropdown = ({ routes = [], value, onChange, placeholder = "Select a r
 };
 
 // Bus Pass Card Component
-const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, institutionName = "SIMATS - ENGINEERING" }) => {
+const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, institutionName = "SIMATS - ENGINEERING (SSE)" }) => {
   const getFormattedToday = () => {
     const today = new Date();
-    return `${today.getDate()} ${today.toLocaleString('default', { month: 'short' })} ${today.getFullYear()}`;
+    // Format to "03 Sept 2026"
+    return `${today.getDate().toString().padStart(2, '0')} ${today.toLocaleString('default', { month: 'short' })} ${today.getFullYear()}`;
   };
 
   const app = application || {};
   const isAnnual = String(app.pass_type || 'ANNUAL').toUpperCase() === 'ANNUAL';
 
   return (
-    <div className="w-full max-w-md mx-auto overflow-hidden rounded-3xl border border-purple-900/30 shadow-2xl bg-white text-slate-800">
+    <div className="w-full max-w-md mx-auto overflow-hidden rounded-2xl border-none shadow-2xl bg-[#ebebeb] text-slate-800 pb-8">
       
       {/* Header Gradient */}
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white px-5 py-3.5 flex items-center justify-between">
-        <span className="inline-flex items-center gap-2 text-sm font-extrabold tracking-wide">
-          <Bus className="w-4.5 h-4.5 fill-white/20" /> BUS PASS
+      <div className="bg-[#5c574b] text-white px-5 py-3.5 flex items-center justify-between">
+        <span className="inline-flex items-center gap-2 text-sm font-medium tracking-wide">
+          <Bus className="w-4.5 h-4.5 text-white" /> BUS PASS
         </span>
-        <span className="text-[10px] font-extrabold uppercase tracking-wider opacity-90 truncate max-w-[55%] text-right">
+        <span className="text-[10px] font-medium uppercase tracking-wider truncate max-w-[55%] text-right">
           {institutionName}
         </span>
       </div>
 
       {/* Date Banner */}
-      <div className="mt-4 text-center">
-        <span className="text-3xl font-black leading-tight text-slate-900 tracking-tight">
+      <div className="mt-5 text-center">
+        <span className="text-3xl font-medium leading-tight text-slate-900 tracking-tight">
           {getFormattedToday()}
         </span>
       </div>
 
       {/* Student Profile Info */}
-      <div className="px-5 pt-4 pb-3 flex flex-col items-center text-center">
+      <div className="px-5 pt-5 pb-3 flex flex-col items-center text-center">
         {/* Profile Photo */}
         <img
           src={app.photo_url || app.profile_photo || student?.profilePhoto || "/profile.png"}
           alt={app.student_name || student?.name || "Student"}
-          className="w-48 h-48 rounded-full object-cover border-4 border-blue-100 shadow-md bg-blue-50"
+          className="w-44 h-44 rounded-full object-cover border-4 border-white shadow-sm bg-blue-100"
         />
 
-        <div className="mt-3 text-lg font-extrabold leading-tight text-slate-900">
+        <div className="mt-4 text-lg font-medium leading-tight text-slate-900">
           {app.student_name || student?.name || 'KUMARAN S'}
         </div>
-        <div className="text-xs font-semibold text-slate-400 mt-0.5">
+        <div className="text-xs font-normal text-slate-500 mt-0.5">
           Reg No: {app.register_number || student?.regNo || '192372048'}
         </div>
 
-        <div className="mt-3 inline-flex items-center gap-2 text-base font-extrabold text-blue-600">
-          <Bus className="w-4 h-4" />
-          <span>{app.routeNumber ? `${app.routeNumber} - ${app.routeName}` : (app.routeName || '7B - Puzhal Camp')}</span>
+        <div className="mt-3 inline-flex items-center gap-2 text-lg font-medium text-slate-800">
+          <Bus className="w-5 h-5 text-blue-600" />
+          <span>{app.routeNumber ? `${app.routeNumber} - ${app.routeName}` : (app.routeName || '7F - Ambattur OT II')}</span>
         </div>
 
         <div className="mt-2.5 w-full px-2 space-y-1 text-xs">
-          <div className="flex items-center justify-center gap-1.5 text-slate-600 font-medium">
-            <span className="rounded bg-emerald-100 text-emerald-700 px-1.5 py-0.5 text-[10px] font-bold">Pickup</span>
-            <span>{app.pickup_stop_name || 'Puzhal Camp'} ({app.pickup_stop_time || '07:15'}) → SIMATS Campus</span>
-          </div>
-          <div className="flex items-center justify-center gap-1.5 text-slate-600 font-medium">
-            <span className="rounded bg-rose-100 text-rose-700 px-1.5 py-0.5 text-[10px] font-bold">Drop</span>
-            <span>SIMATS Campus → {app.drop_stop_name || 'Villa Apartment'} ({app.drop_stop_time || '17:15'})</span>
+          <div className="flex items-center justify-center gap-2 text-slate-500 font-normal">
+            <span className="rounded bg-red-100 text-red-600 px-1.5 py-0.5 text-[10px] font-medium">Drop</span>
+            <span>SIMATS (Thandalam campus) · 15:20 → {app.drop_stop_name || 'Ambattur'}<br/>Bus Stop · {app.drop_stop_time || '16:15'}</span>
           </div>
         </div>
 
-        <div className="mt-3.5 flex items-center justify-center gap-2">
-          <span className="rounded-full bg-blue-100 text-blue-700 px-3 py-0.5 text-xs font-bold">
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <span className="rounded-full bg-blue-100 text-blue-600 px-3 py-1 text-xs font-medium">
             {isAnnual ? 'Annual Pass' : 'Trip Pass'}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 text-emerald-700 px-3 py-0.5 text-xs font-bold">
-            <CircleCheck className="w-3.5 h-3.5" /> Active
+          <span className="inline-flex items-center gap-1 rounded-full text-slate-500 px-2 py-1 text-xs font-medium">
+            <CircleCheck className="w-4 h-4" /> Expired
           </span>
         </div>
       </div>
 
       {/* Dotted Tear Line */}
       <div className="relative my-2 select-none">
-        <div className="border-t-2 border-dashed border-slate-200 mx-4" />
-        <span className="absolute -left-3 -top-3 w-6 h-6 rounded-full bg-[#0f0c21] border-r border-slate-200" />
-        <span className="absolute -right-3 -top-3 w-6 h-6 rounded-full bg-[#0f0c21] border-l border-slate-200" />
+        <div className="border-t-2 border-dashed border-slate-300 mx-4" />
+        <span className="absolute -left-3 -top-3 w-6 h-6 rounded-full bg-[#0b0818]" />
+        <span className="absolute -right-3 -top-3 w-6 h-6 rounded-full bg-[#0b0818]" />
       </div>
 
       {/* QR Code Container */}
-      <div className="px-5 pb-6 pt-2 flex flex-col items-center">
-        <div className="bg-slate-50 p-3.5 border border-slate-200 rounded-2xl shadow-inner mb-3">
+      <div className="px-5 pb-8 pt-4 flex flex-col items-center">
+        <div className="bg-white p-3.5 border border-slate-200 rounded-2xl shadow-sm mb-3">
           {qrCodeData ? (
             <div className="w-44 h-44 select-none">
               <QRCode
@@ -332,10 +329,10 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
           )}
         </div>
 
-        <span className="text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+        <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">
           MANUAL VERIFICATION CODE
         </span>
-        <div className="text-xl font-extrabold tracking-[0.25em] text-slate-900 font-mono mt-0.5">
+        <div className="text-xl font-extrabold tracking-[0.25em] text-slate-800 font-mono mt-0.5">
           {manualCode}
         </div>
 
@@ -344,6 +341,7 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
           <span>Refreshes in {countdown}s</span>
         </div>
       </div>
+
     </div>
   );
 };
