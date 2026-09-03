@@ -340,10 +340,10 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
           {String(manualCode || '655271').split('').join(' ')}
         </div>
 
-        {/* <div className="flex items-center gap-1.5 text-slate-500 font-semibold text-xs mt-3">
+        <div className="flex items-center gap-1.5 text-slate-500 font-medium text-xs mt-3">
           <RefreshCw className="w-3.5 h-3.5 text-blue-600 animate-spin" />
           <span>Refreshes in {countdown}s</span>
-        </div> */}
+        </div>
       </div>
 
     </div>
