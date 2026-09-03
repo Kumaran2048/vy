@@ -1,8 +1,8 @@
 // Mock database for VStudy College Transport Management System
 
 export const studentData = {
-  name: "JEEVAN KUMAR J",
-  regNo: "192419060",
+  name: "KUMARAN S",
+  regNo: "192372048",
   profilePhoto: "/profile.png",
   department: "School of Engineering (SIMATS)",
   avatarText: "J",

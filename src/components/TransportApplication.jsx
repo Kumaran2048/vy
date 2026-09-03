@@ -299,8 +299,8 @@ const BusPassCard = ({ application, student, countdown, qrCodeData, manualCode, 
           <span className="rounded-full bg-blue-100 text-blue-600 px-3 py-1 text-xs font-medium">
             {isAnnual ? 'Annual Pass' : 'Trip Pass'}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full text-slate-500 px-2 py-1 text-xs font-medium">
-            <CircleCheck className="w-4 h-4" /> Expired
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 text-emerald-700 px-3 py-1 text-xs font-bold">
+            <CircleCheck className="w-3.5 h-3.5" /> Active
           </span>
         </div>
       </div>
